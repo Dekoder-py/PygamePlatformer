@@ -14,7 +14,7 @@ Made for HackClub Summer of Making 2025!
 git clone https://github.com/Dekoder-py/PygamePlatformer
 cd PygamePlatformer
 pip install -r requirements.txt
-python3 code/main.py
+python3 main.py
 ```
 
 #### Credits
