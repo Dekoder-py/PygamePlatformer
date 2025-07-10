@@ -23,7 +23,9 @@ class Game:
                     self.running = False
 
             self.display_surface.fill('skyblue')
+            self.all_sprites.update(dt)
             self.all_sprites.draw(self.display_surface)
+
             pygame.display.update()
 
         pygame.quit()
