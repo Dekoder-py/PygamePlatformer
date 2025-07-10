@@ -7,6 +7,7 @@ class Game:
     def __init__(self):
         # initial setup
         pygame.init()
+        pygame.display.set_caption("Untitled Platformer")
         self.display_surface = pygame.display.set_mode((1280, 800))
         self.clock = pygame.Clock()
         self.running = True
