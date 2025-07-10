@@ -10,7 +10,6 @@ class Game:
 
         pygame.display.set_caption("Unnamed Platformer")
         self.screen = pygame.display.set_mode((640, 480))
-
         self.clock = pygame.time.Clock()
 
     def run(self):
