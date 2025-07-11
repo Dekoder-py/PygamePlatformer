@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.on_surface = {"floor": False, "left": False, "right": False}
 
         # timer
-        self.timers = {"wall jump": Timer(300)}
+        self.timers = {"wall jump": Timer(400), "wall slide block": Timer(250)}
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -42,14 +42,20 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] or keys[pygame.K_w] or keys[pygame.K_UP]:
             self.jump = True
 
+        # temp respawn
+        if keys[pygame.K_r]:
+            self.rect.center = (700, 200)
+
     def move(self, dt):
         # horizontal
         self.rect.x += self.direction.x * self.speed * dt
         self.collision("horizontal")
 
         # vertical
-        if not self.on_surface["floor"] and any(
-            (self.on_surface["right"], self.on_surface["left"])
+        if (
+            not self.on_surface["floor"]
+            and any((self.on_surface["right"], self.on_surface["left"]))
+            and not self.timers["wall slide block"].active
         ):
             self.direction.y = 0
             self.rect.y += self.gravity / 10 * dt
@@ -62,7 +68,11 @@ class Player(pygame.sprite.Sprite):
         if self.jump:
             if self.on_surface["floor"]:
                 self.direction.y = -self.jump_height
-            elif any((self.on_surface["right"], self.on_surface["left"])):
+                self.timers["wall slide block"].activate()
+            elif (
+                any((self.on_surface["right"], self.on_surface["left"]))
+                and not self.timers["wall slide block"].active
+            ):
                 self.timers["wall jump"].activate()
                 self.direction.y = -self.jump_height
                 self.direction.x = 1 if self.on_surface["left"] else -1
