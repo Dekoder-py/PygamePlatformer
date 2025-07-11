@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector()
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             input_vector.x += 1
         if keys[pygame.K_LEFT]:
             input_vector.x -= 1
