@@ -6,7 +6,10 @@ class Player(pygame.sprite.Sprite):
         super().__init__(*groups)
         self.image = pygame.Surface((48, 56))
         self.image.fill("red")
+
+        # rects
         self.rect = self.image.get_frect(topleft=pos)
+        self.old_rect = self.rect.copy()
 
         # movement
         self.direction = vector()
@@ -45,5 +48,6 @@ class Player(pygame.sprite.Sprite):
                     pass
 
     def update(self, dt):
+        self.old_rect = self.rect.copy()
         self.input()
         self.move(dt)
