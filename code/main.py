@@ -11,6 +11,7 @@ class Game:
         pygame.init()
         self.display_surf = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("Unnamed Platform World")
+        self.clock = pygame.Clock()
 
         self.tmx_maps = {0: load_pygame(join("data", "levels", "omni.tmx"))}
 
@@ -18,12 +19,13 @@ class Game:
 
     def run(self):
         while True:
+            dt = self.clock.tick() / 1000
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-            self.current_stage.run()
+            self.current_stage.run(dt)
 
             pygame.display.update()
 
