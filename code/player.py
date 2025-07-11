@@ -26,7 +26,9 @@ class Player(pygame.sprite.Sprite):
             input_vector.x += 1
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             input_vector.x -= 1
-        self.direction = input_vector.normalize() if input_vector else input_vector
+        self.direction.x = (
+            input_vector.normalize().x if input_vector else input_vector.x
+        )
 
     def move(self, dt):
         # horizontal
