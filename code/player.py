@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = input_vector.normalize() if input_vector else input_vector
 
     def move(self, dt):
+        # horizontal
         self.rect.x += self.direction.x * self.speed * dt
         self.collision("horizontal")
 
