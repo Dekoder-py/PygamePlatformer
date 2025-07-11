@@ -37,11 +37,18 @@ class Player(pygame.sprite.Sprite):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.rect):
                 if axis == "horizontal":
+                    # check current collision and last frame to see where to place player
                     # left
-                    if self.rect.left <= sprite.rect.right:
+                    if (
+                        self.rect.left <= sprite.rect.right
+                        and self.old_rect.left >= sprite.old_rect.right
+                    ):
                         self.rect.left = sprite.rect.right
                     # right
-                    if self.rect.right >= sprite.rect.left:
+                    if (
+                        self.rect.right >= sprite.rect.left
+                        and self.old_rect.right <= sprite.old_rect.left
+                    ):
                         self.rect.right = sprite.rect.left
                 # vertical
                 else:
