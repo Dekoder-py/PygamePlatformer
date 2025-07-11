@@ -30,7 +30,11 @@ class Player(pygame.sprite.Sprite):
     def move(self, dt):
         self.rect.x += self.direction.x * self.speed * dt
         self.collision("horizontal")
-        self.rect.y += self.direction.y * self.speed * dt
+
+        # vertical
+        self.direction.y += self.gravity / 2 * dt
+        self.rect.y += self.direction.y * dt
+        self.direction.y += self.gravity / 2 * dt
         self.collision("vertical")
 
     # noinspection DuplicatedCode
