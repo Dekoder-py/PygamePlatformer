@@ -44,9 +44,15 @@ class Player(pygame.sprite.Sprite):
         self.collision("horizontal")
 
         # vertical
-        self.direction.y += self.gravity / 2 * dt
-        self.rect.y += self.direction.y * dt
-        self.direction.y += self.gravity / 2 * dt
+        if not self.on_surface["floor"] and any(
+            (self.on_surface["right"], self.on_surface["left"])
+        ):
+            self.direction.y = 0
+            self.rect.y += self.gravity / 10 * dt
+        else:
+            self.direction.y += self.gravity / 2 * dt
+            self.rect.y += self.direction.y * dt
+            self.direction.y += self.gravity / 2 * dt
         self.collision("vertical")
 
         if self.jump:
@@ -62,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         )
         left_rect = pygame.Rect(
             self.rect.topleft + vector(-2, self.rect.height / 4),
-            (2, self.rect.width / 2),
+            (2, self.rect.height / 2),
         )
 
         collide_rects = [sprite.rect for sprite in self.collision_sprites]
