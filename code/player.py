@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         input_vector = vector()
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             input_vector.x += 1
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             input_vector.x -= 1
         self.direction = input_vector.normalize() if input_vector else input_vector
 
