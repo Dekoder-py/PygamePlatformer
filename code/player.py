@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.direction.y * self.speed * dt
         self.collision("vertical")
 
+    # noinspection DuplicatedCode
     def collision(self, axis):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.rect):
