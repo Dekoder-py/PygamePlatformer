@@ -1,6 +1,6 @@
 from player import Player
 from settings import *
-from sprites import Sprite
+from sprites import Sprite, MovingSprite
 
 
 class Level:
@@ -26,6 +26,22 @@ class Level:
         for obj in tmx_map.get_layer_by_name("Objects"):
             if obj.name == "player":
                 Player((obj.x, obj.y), (self.all_sprites,), self.collision_sprites)
+
+        # moving objects
+        for obj in tmx_map.get_layer_by_name("Moving Objects"):
+            if obj.name == "helicopter":
+                # horizontal
+                if obj.width > obj.height:
+                    move_dir = "x"
+                    start_pos = (obj.x, obj.y + obj.height / 2)
+                    end_pos = (obj.x + obj.width, obj.y + obj.height / 2)
+                # vertical
+                else:
+                    move_dir = "y"
+                    start_pos = (obj.x + obj.width / 2, obj.y)
+                    end_pos = (obj.x + obj.width / 2, obj.y + obj.height)
+                speed = obj.properties["speed"]
+                MovingSprite(self.all_sprites, start_pos, end_pos, move_dir, speed)
 
     def run(self, dt):
         self.display_surf.fill("black")
