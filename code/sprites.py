@@ -19,7 +19,11 @@ class MovingSprite(Sprite):
     def __init__(self, groups, start_pos, end_pos, move_dir, speed):
         surf = pygame.Surface((200, 50))
         super().__init__(start_pos, surf, groups)
-        self.rect.center = start_pos
+        if move_dir == "x":
+            self.rect.midleft = start_pos
+        else:
+            self.rect.midtop = start_pos
+            
         self.start_pos = start_pos
         self.end_pos = end_pos
 
@@ -45,6 +49,6 @@ class MovingSprite(Sprite):
                 self.rect.top = self.start_pos[1]
 
     def update(self, dt):
-        self.old_rect = self.rect.copy
+        self.old_rect = self.rect.copy()
         self.rect.topleft += self.direction * self.speed * dt
         self.check_border()
