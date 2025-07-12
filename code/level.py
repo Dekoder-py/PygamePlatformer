@@ -24,11 +24,14 @@ class Level:
                     groups.append(self.collision_sprites)
                 if layer == "Platforms":
                     groups.append(self.semi_collision_sprites)
-                Sprite(
-                    (x * TILE_SIZE, y * TILE_SIZE),
-                    surf,
-                    groups,
-                )
+                match layer:
+                    case "BG":
+                        z = Z_LAYERS["bg tiles"]
+                    case "FG":
+                        z = Z_LAYERS["fg"]
+                    case _:
+                        z = Z_LAYERS["main"]
+                Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, groups, z)
 
         # objects
         for obj in tmx_map.get_layer_by_name("Objects"):
