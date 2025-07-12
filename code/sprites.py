@@ -10,7 +10,6 @@ class Sprite(pygame.sprite.Sprite):
     ):
         super().__init__(groups)
         self.image = surf
-        self.image.fill("white")
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
 
@@ -19,6 +18,7 @@ class MovingSprite(Sprite):
     def __init__(self, groups, start_pos, end_pos, move_dir, speed):
         surf = pygame.Surface((200, 50))
         super().__init__(start_pos, surf, groups)
+        self.image.fill("white")
         if move_dir == "x":
             self.rect.midleft = start_pos
         else:
