@@ -102,7 +102,6 @@ class Player(pygame.sprite.Sprite):
             True if left_rect.collidelist(collide_rects) >= 0 else False
         )
 
-    # noinspection DuplicatedCode
     def collision(self, axis):
         for sprite in self.collision_sprites:
             if sprite.rect.colliderect(self.rect):
