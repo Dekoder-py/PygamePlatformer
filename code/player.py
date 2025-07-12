@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         # collision
         self.collision_sprites = collision_sprites
         self.on_surface = {"floor": False, "left": False, "right": False}
+        self.platform = None
 
         # timer
         self.timers = {"wall jump": Timer(400), "wall slide block": Timer(250)}
@@ -63,12 +64,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += self.gravity / 2 * dt
             self.rect.y += self.direction.y * dt
             self.direction.y += self.gravity / 2 * dt
-        self.collision("vertical")
 
         if self.jump:
             if self.on_surface["floor"]:
                 self.direction.y = -self.jump_height
                 self.timers["wall slide block"].activate()
+                self.rect.bottom -= 1
             elif (
                 any((self.on_surface["right"], self.on_surface["left"]))
                 and not self.timers["wall slide block"].active
@@ -77,6 +78,11 @@ class Player(pygame.sprite.Sprite):
                 self.direction.y = -self.jump_height
                 self.direction.x = 1 if self.on_surface["left"] else -1
             self.jump = False
+        self.collision("vertical")
+
+    def platform_move(self, dt):
+        if self.platform:
+            self.rect.topleft += self.platform.direction * self.platform.speed * dt
 
     def check_contact(self):
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
@@ -101,6 +107,15 @@ class Player(pygame.sprite.Sprite):
         self.on_surface["left"] = (
             True if left_rect.collidelist(collide_rects) >= 0 else False
         )
+
+        self.platform = None
+        for sprite in [
+            sprite
+            for sprite in self.collision_sprites.sprites()
+            if hasattr(sprite, "moving")
+        ]:
+            if sprite.rect.colliderect(floor_rect):
+                self.platform = sprite
 
     def collision(self, axis):
         for sprite in self.collision_sprites:
@@ -144,4 +159,5 @@ class Player(pygame.sprite.Sprite):
         self.update_timer()
         self.input()
         self.move(dt)
+        self.platform_move(dt)
         self.check_contact()
