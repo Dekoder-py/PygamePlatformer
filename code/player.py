@@ -27,7 +27,11 @@ class Player(pygame.sprite.Sprite):
         self.platform = None
 
         # timer
-        self.timers = {"wall jump": Timer(400), "wall slide block": Timer(250)}
+        self.timers = {
+            "wall jump": Timer(400),
+            "wall slide block": Timer(250),
+            "platform skip": Timer(300),
+        }
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -37,6 +41,9 @@ class Player(pygame.sprite.Sprite):
                 input_vector.x += 1
             if keys[pygame.K_LEFT] or keys[pygame.K_a]:
                 input_vector.x -= 1
+            if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                self.timers["platform skip"].activate()
+
             self.direction.x = (
                 input_vector.normalize().x if input_vector else input_vector.x
             )
@@ -102,7 +109,11 @@ class Player(pygame.sprite.Sprite):
 
         # check the collisions
         self.on_surface["floor"] = (
-            True if floor_rect.collidelist(collide_rects) >= 0 or floor_rect.collidelist(semi_collide_rects) >= 0 and self.direction.y >= 0 else False
+            True
+            if floor_rect.collidelist(collide_rects) >= 0
+            or floor_rect.collidelist(semi_collide_rects) >= 0
+            and self.direction.y >= 0
+            else False
         )
         self.on_surface["right"] = (
             True if right_rect.collidelist(collide_rects) >= 0 else False
@@ -155,14 +166,16 @@ class Player(pygame.sprite.Sprite):
                     self.direction.y = 0
 
     def semi_collision(self):
-        for sprite in self.semi_collision_sprites:
-            if sprite.rect.colliderect(self.rect):
-                if (
-                    self.rect.bottom >= sprite.rect.top
-                    and int(self.old_rect.bottom) <= sprite.old_rect.top
-                ):
-                    self.rect.bottom = sprite.rect.top
-                    self.direction.y = 0
+        if not self.timers["platform skip"].active:
+            for sprite in self.semi_collision_sprites:
+                if sprite.rect.colliderect(self.rect):
+                    if (
+                        self.rect.bottom >= sprite.rect.top
+                        and int(self.old_rect.bottom) <= sprite.old_rect.top
+                    ):
+                        self.rect.bottom = sprite.rect.top
+                    if self.direction.y > 0:
+                        self.direction.y = 0
 
     def update_timer(self):
         for timer in self.timers.values():
