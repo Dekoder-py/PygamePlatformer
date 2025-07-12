@@ -142,13 +142,13 @@ class Player(pygame.sprite.Sprite):
                     # left
                     if (
                         self.hitbox_rect.left <= sprite.rect.right
-                        and int(self.old_rect.left) >= sprite.old_rect.right
+                        and int(self.old_rect.left) >= int(sprite.old_rect.right)
                     ):
                         self.hitbox_rect.left = sprite.rect.right
                     # right
                     if (
                         self.hitbox_rect.right >= sprite.rect.left
-                        and int(self.old_rect.right) <= sprite.old_rect.left
+                        and int(self.old_rect.right) <= int(sprite.old_rect.left)
                     ):
                         self.hitbox_rect.right = sprite.rect.left
                 # vertical
@@ -156,7 +156,7 @@ class Player(pygame.sprite.Sprite):
                     # top
                     if (
                         self.hitbox_rect.top <= sprite.rect.bottom
-                        and int(self.old_rect.top) >= sprite.old_rect.bottom
+                        and int(self.old_rect.top) >= int(sprite.old_rect.bottom)
                     ):
                         self.hitbox_rect.top = sprite.rect.bottom
                         if hasattr(sprite, "moving"):
@@ -164,7 +164,7 @@ class Player(pygame.sprite.Sprite):
                     # bottom
                     if (
                         self.hitbox_rect.bottom >= sprite.rect.top
-                        and int(self.old_rect.bottom) <= sprite.old_rect.top
+                        and int(self.old_rect.bottom) <= int(sprite.old_rect.top)
                     ):
                         self.hitbox_rect.bottom = sprite.rect.top
                     self.direction.y = 0
