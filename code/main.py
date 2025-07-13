@@ -1,10 +1,8 @@
 from os.path import join
 
-from pytmx.util_pygame import load_pygame
-
 from level import Level
+from pytmx.util_pygame import load_pygame
 from settings import *
-
 from support import *
 
 
@@ -24,7 +22,7 @@ class Game:
         self.level_frames = {
             "flag": import_folder("graphics", "level", "flag"),
             "floor_spike": import_folder("graphics", "enemies", "floor_spikes"),
-            "palms": import_folder("graphics", "level", "palms"),
+            "palms": import_sub_folders("graphics", "level", "palms"),
             "candle": import_folder("graphics", "level", "candle"),
             "window": import_folder("graphics", "level", "window"),
             "big_chain": import_folder("graphics", "level", "big_chains"),

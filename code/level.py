@@ -52,13 +52,33 @@ class Level:
                         (self.all_sprites, self.collision_sprites),
                     )
                 else:
-                    if "palm" not in obj.name:
-                        frames = level_frames[obj.name]
-                        AnimatedSprite(
-                            (obj.x, obj.y),
-                            frames,
-                            self.all_sprites,
-                        )
+                    # frames
+                    frames = (
+                        level_frames[obj.name]
+                        if not "palm" in obj.name
+                        else level_frames["palms"][obj.name]
+                    )
+                    if obj.name == "floor_spike" and obj.properties["inverted"]:
+                        frames = [
+                            pygame.transform.flip(frame, False, True)
+                            for frame in frames
+                        ]
+
+                    # groups
+                    groups = [self.all_sprites]
+                    if obj.name in ("palm_small", "palm_large"):
+                        groups.append(self.semi_collision_sprites)
+                    if obj.name in ("saw", "floor_spike"):
+                        groups.append(self.damage_sprites)
+
+                    # z index
+                    z = (
+                        Z_LAYERS["main"]
+                        if not "bg" in obj.name
+                        else Z_LAYERS["bg details"]
+                    )
+
+                    AnimatedSprite((obj.x, obj.y), frames, groups, z)
 
         # moving objects
         for obj in tmx_map.get_layer_by_name("Moving Objects"):
