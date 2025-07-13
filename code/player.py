@@ -185,10 +185,22 @@ class Player(pygame.sprite.Sprite):
         for timer in self.timers.values():
             timer.update()
 
+    def animate(self, dt):
+        self.frame_index += ANIMATION_SPEED * dt
+        self.image = self.frames[self.state][
+            int(self.frame_index % len(self.frames[self.state]))
+        ]
+
     def update(self, dt):
+        # general updates
         self.old_rect = self.hitbox_rect.copy()
         self.update_timer()
+
+        # move and collision
         self.input()
         self.move(dt)
         self.platform_move(dt)
         self.check_contact()
+
+        # animation
+        self.animate(dt)
