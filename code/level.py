@@ -1,3 +1,5 @@
+from random import uniform
+
 from groups import AllSprites
 from player import Player
 from settings import *
@@ -33,6 +35,28 @@ class Level:
                     case _:
                         z = Z_LAYERS["main"]
                 Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, groups, z)
+
+        # bg objects
+        for obj in tmx_map.get_layer_by_name("BG details"):
+            # static
+            if obj.name == "static":
+                Sprite(
+                    (obj.x, obj.y), obj.image, self.all_sprites, Z_LAYERS["bg details"]
+                )
+            else:
+                AnimatedSprite(
+                    (obj.x, obj.y),
+                    level_frames[obj.name],
+                    self.all_sprites,
+                    Z_LAYERS["bg details"],
+                )
+                if obj.name == "candle":
+                    AnimatedSprite(
+                        (obj.x, obj.y) + vector(-20, -20),
+                        level_frames["candle_light"],
+                        self.all_sprites,
+                        Z_LAYERS["bg tiles"],
+                    )
 
         # objects
         for obj in tmx_map.get_layer_by_name("Objects"):
@@ -76,6 +100,13 @@ class Level:
                         Z_LAYERS["main"]
                         if not "bg" in obj.name
                         else Z_LAYERS["bg details"]
+                    )
+
+                    # animation speed
+                    animation_speed = (
+                        ANIMATION_SPEED
+                        if not "palm" in obj.name
+                        else ANIMATION_SPEED + uniform(-1, 1)
                     )
 
                     AnimatedSprite((obj.x, obj.y), frames, groups, z)
