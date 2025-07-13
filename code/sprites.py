@@ -31,11 +31,10 @@ class AnimatedSprite(Sprite):
     def update(self, dt):
         self.animate(dt)
 
-class MovingSprite(Sprite):
-    def __init__(self, groups, start_pos, end_pos, move_dir, speed):
-        surf = pygame.Surface((200, 50))
-        super().__init__(start_pos, surf, groups)
-        self.image.fill("white")
+
+class MovingSprite(AnimatedSprite):
+    def __init__(self, frames, groups, start_pos, end_pos, move_dir, speed):
+        super().__init__(start_pos, frames, groups)
         if move_dir == "x":
             self.rect.midleft = start_pos
         else:
@@ -70,3 +69,4 @@ class MovingSprite(Sprite):
         self.old_rect = self.rect.copy()
         self.rect.topleft += self.direction * self.speed * dt
         self.check_border()
+        self.animate(dt)

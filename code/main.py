@@ -32,6 +32,8 @@ class Game:
             "small_chain": import_folder("graphics", "level", "small_chains"),
             "candle_light": import_folder("graphics", "level", "candle light"),
             "player": import_sub_folders("graphics", "player"),
+            "helicopter": import_folder("graphics", "level", "helicopter"),
+            "boat": import_folder("graphics", "objects", "boat"),
         }
 
     def run(self):
