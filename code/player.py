@@ -5,12 +5,15 @@ from timer import Timer
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites):
+    def __init__(self, pos, groups, collision_sprites, semi_collision_sprites, frames):
+        # general setup
         super().__init__(*groups)
-        self.image = pygame.image.load(
-            join("graphics", "player", "idle", "0.png")
-        ).convert_alpha()
         self.z = Z_LAYERS["main"]
+
+        # image
+        self.frames, self.frame_index = frames, 0
+        self.state, self.facing_right = "idle", True
+        self.image = self.frames[self.state][self.frame_index]
 
         # rects
         self.rect = self.image.get_frect(topleft=pos)
