@@ -5,6 +5,8 @@ from pytmx.util_pygame import load_pygame
 from level import Level
 from settings import *
 
+from support import *
+
 
 class Game:
     def __init__(self):
@@ -12,10 +14,18 @@ class Game:
         self.display_surf = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("Unnamed Platform World")
         self.clock = pygame.Clock()
+        self.import_assets()
 
         self.tmx_maps = {0: load_pygame(join("data", "levels", "omni.tmx"))}
 
-        self.current_stage = Level(self.tmx_maps[0])
+        self.current_stage = Level(self.tmx_maps[0], self.level_frames)
+
+    def import_assets(self):
+        self.level_frames = {
+            "flag": import_folder("graphics", "level", "flag"),
+            "saw": import_folder("graphics", "enemies", "saw", "animation"),
+            "floor_spike": import_folder("graphics", "enemies", "floor_spikes")
+        }
 
     def run(self):
         while True:

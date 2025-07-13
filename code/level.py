@@ -1,11 +1,11 @@
 from player import Player
 from settings import *
-from sprites import Sprite, MovingSprite
+from sprites import Sprite, AnimatedSprite, MovingSprite
 from groups import AllSprites
 
 
 class Level:
-    def __init__(self, tmx_map):
+    def __init__(self, tmx_map, level_frames):
         self.display_surf = pygame.display.get_surface()
 
         # groups
@@ -13,9 +13,9 @@ class Level:
         self.collision_sprites = pygame.sprite.Group()
         self.semi_collision_sprites = pygame.sprite.Group()
 
-        self.setup(tmx_map)
+        self.setup(tmx_map, level_frames)
 
-    def setup(self, tmx_map):
+    def setup(self, tmx_map, level_frames):
         # tiles
         for layer in ["BG", "Terrain", "FG", "Platforms"]:
             for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
@@ -42,6 +42,21 @@ class Level:
                     self.collision_sprites,
                     self.semi_collision_sprites,
                 )
+            else:
+                if obj.name in ("barrel", "crate"):
+                    Sprite(
+                        (obj.x, obj.y),
+                        obj.image,
+                        (self.all_sprites, self.collision_sprites),
+                    )
+                else:
+                    if "palm" not in obj.name:
+                        frames = level_frames[obj.name]
+                        AnimatedSprite(
+                            (obj.x, obj.y),
+                            frames,
+                            self.all_sprites,
+                        )
 
         # moving objects
         for obj in tmx_map.get_layer_by_name("Moving Objects"):
