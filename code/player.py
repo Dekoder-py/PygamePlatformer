@@ -46,8 +46,10 @@ class Player(pygame.sprite.Sprite):
         if not self.timers["wall jump"].active:
             if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 input_vector.x += 1
+                self.facing_right = True
             if keys[pygame.K_LEFT] or keys[pygame.K_a]:
                 input_vector.x -= 1
+                self.facing_right = False
             if keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 self.timers["platform skip"].activate()
 
@@ -190,6 +192,22 @@ class Player(pygame.sprite.Sprite):
         self.image = self.frames[self.state][
             int(self.frame_index % len(self.frames[self.state]))
         ]
+        self.image = (
+            self.image
+            if self.facing_right
+            else pygame.transform.flip(self.image, True, False)
+        )
+
+    def get_state(self):
+        # on floor
+        if self.on_surface["floor"]:
+            self.state = "idle" if self.direction.x == 0 else "run"
+        # sliding on wall
+        elif any((self.on_surface["left"], self.on_surface["right"])):
+            self.state = "wall"
+        # in the air
+        else:
+            self.state = "jump" if self.direction.y < 0 else "fall"
 
     def update(self, dt):
         # general updates
@@ -203,4 +221,5 @@ class Player(pygame.sprite.Sprite):
         self.check_contact()
 
         # animation
+        self.get_state()
         self.animate(dt)
