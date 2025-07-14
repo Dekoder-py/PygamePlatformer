@@ -4,8 +4,8 @@ from groups import AllSprites
 from player import Player
 from settings import *
 from sprites import AnimatedSprite, MovingSprite, Sprite
-
 from typing import List
+
 
 class Level:
     def __init__(self, tmx_map, level_frames):
@@ -110,7 +110,7 @@ class Level:
                         else ANIMATION_SPEED + uniform(-1, 1)
                     )
 
-                    AnimatedSprite((obj.x, obj.y), frames, groups, z)
+                    AnimatedSprite((obj.x, obj.y), frames, groups, z, animation_speed)
 
         # moving objects
         for obj in tmx_map.get_layer_by_name("Moving Objects"):
