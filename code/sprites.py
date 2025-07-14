@@ -6,10 +6,10 @@ class Sprite(pygame.sprite.Sprite):
         self,
         pos,
         surf=pygame.Surface((TILE_SIZE, TILE_SIZE)),
-        groups=None,
+        groups: None | list[pygame.sprite.Group]=None,
         z=Z_LAYERS["main"],
     ):
-        super().__init__(groups)
+        super().__init__(groups) # type: ignore
         self.image = surf
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
