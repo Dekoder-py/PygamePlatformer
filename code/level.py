@@ -5,6 +5,7 @@ from player import Player
 from settings import *
 from sprites import AnimatedSprite, MovingSprite, Sprite
 
+from typing import List
 
 class Level:
     def __init__(self, tmx_map, level_frames):
@@ -22,7 +23,7 @@ class Level:
         # tiles
         for layer in ["BG", "Terrain", "FG", "Platforms"]:
             for x, y, surf in tmx_map.get_layer_by_name(layer).tiles():
-                groups = [self.all_sprites]
+                groups: List[pygame.sprite.Group] = [self.all_sprites]
                 if layer == "Terrain":
                     groups.append(self.collision_sprites)
                 if layer == "Platforms":
