@@ -1,6 +1,7 @@
 from random import uniform
 from typing import List
 
+from enemies import Tooth
 from groups import AllSprites
 from player import Player
 from settings import *
@@ -16,6 +17,7 @@ class Level:
         self.collision_sprites = pygame.sprite.Group()
         self.semi_collision_sprites = pygame.sprite.Group()
         self.damage_sprites = pygame.sprite.Group()
+        self.tooth_sprites = pygame.sprite.Group()
 
         self.setup(tmx_map, level_frames)
 
@@ -189,6 +191,18 @@ class Level:
                             self.all_sprites,  # type: ignore
                             Z_LAYERS["bg details"],
                         )
+
+        # enemies
+        for obj in tmx_map.get_layer_by_name("Enemies"):
+            if obj.name == "tooth":
+                Tooth(
+                    (obj.x, obj.y),
+                    level_frames["tooth"],
+                    self.collision_sprites,
+                    (self.all_sprites,
+                    self.damage_sprites,
+                    self.tooth_sprites,)
+                )
 
     def run(self, dt):
         self.display_surf.fill("black")
