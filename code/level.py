@@ -4,7 +4,7 @@ from typing import List
 from groups import AllSprites
 from player import Player
 from settings import *
-from sprites import AnimatedSprite, MovingSprite, Sprite
+from sprites import AnimatedSprite, MovingSprite, Sprite, Spike
 
 
 class Level:
@@ -115,7 +115,15 @@ class Level:
         # moving objects
         for obj in tmx_map.get_layer_by_name("Moving Objects"):
             if obj.name == "spike":
-                pass
+                Spike(
+                    pos=(obj.x + obj.width, obj.y + obj.height),
+                    surf=level_frames["spike"],
+                    radius=obj.properties["radius"],
+                    speed=obj.properties["speed"],
+                    start_angle=obj.properties["start_angle"],
+                    end_angle=obj.properties["end_angle"],
+                    groups=(self.all_sprites, self.damage_sprites), # type: ignore
+                )
             else:
                 frames = level_frames[obj.name]
                 groups = (

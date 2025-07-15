@@ -1,3 +1,5 @@
+from math import cos, radians, sin, tan
+
 from settings import *
 
 
@@ -6,10 +8,10 @@ class Sprite(pygame.sprite.Sprite):
         self,
         pos,
         surf=pygame.Surface((TILE_SIZE, TILE_SIZE)),
-        groups: None | list[pygame.sprite.Group]=None,
+        groups: None | list[pygame.sprite.Group] = None,
         z=Z_LAYERS["main"],
     ):
-        super().__init__(groups) # type: ignore
+        super().__init__(groups)  # type: ignore
         self.image = surf
         self.rect = self.image.get_frect(topleft=pos)
         self.old_rect = self.rect.copy()
@@ -78,3 +80,34 @@ class MovingSprite(AnimatedSprite):
             self.image = pygame.transform.flip(
                 self.image, self.reverse["x"], self.reverse["y"]
             )
+
+
+class Spike(Sprite):
+    def __init__(
+        self,
+        pos,
+        surf,
+        groups: None | list[pygame.sprite.Group],
+        radius,
+        speed,
+        start_angle,
+        end_angle,
+        z=Z_LAYERS["main"],
+    ):
+        self.center = pos
+        self.radius = radius
+        self.speed = speed
+        self.start_angle = start_angle
+        self.end_angle = end_angle
+        self.angle = self.start_angle
+
+        # trig
+        y = self.center[1] + sin(radians(self.angle) * self.radius)
+        x = self.center[0] + cos(radians(self.angle) * self.radius)
+        super().__init__((x,y), surf, groups, z)
+
+    def update(self, dt):
+        self.angle += self.speed * dt
+        y = self.center[1] + sin(radians(self.angle) * self.radius)
+        x = self.center[0] + cos(radians(self.angle) * self.radius)
+        self.rect.center = (x,y) # type: ignore
