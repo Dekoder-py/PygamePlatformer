@@ -29,3 +29,14 @@ class Tooth(pygame.sprite.Sprite):
         # move
         self.rect.x += self.direction * self.speed * dt
 
+        # reverse direction
+        floor_rect_right = pygame.FRect(self.rect.bottomright, (1, 1))
+        floor_rect_left = pygame.FRect(self.rect.bottomleft, (1, 1))
+
+        if (
+            floor_rect_right.collidelist(self.collision_rects) < 0
+            and self.direction > 0
+            or floor_rect_left.collidelist(self.collision_rects) < 0
+            and self.direction < 0
+        ):
+            self.direction *= -1
