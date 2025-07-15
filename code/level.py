@@ -1,15 +1,15 @@
 from random import uniform
+from typing import List
 
 from groups import AllSprites
 from player import Player
 from settings import *
 from sprites import AnimatedSprite, MovingSprite, Sprite
-from typing import List
 
 
 class Level:
     def __init__(self, tmx_map, level_frames):
-        self.display_surf = pygame.display.get_surface()
+        self.display_surf: pygame.Surface = pygame.display.get_surface()  # type: ignore[reportAttributeAccessIssue]
 
         # groups
         self.all_sprites = AllSprites()
@@ -42,7 +42,7 @@ class Level:
             # static
             if obj.name == "static":
                 Sprite(
-                    (obj.x, obj.y), obj.image, self.all_sprites, Z_LAYERS["bg details"]
+                    (obj.x, obj.y), obj.image, self.all_sprites, Z_LAYERS["bg details"]  # type: ignore
                 )
             else:
                 AnimatedSprite(
@@ -74,7 +74,7 @@ class Level:
                     Sprite(
                         (obj.x, obj.y),
                         obj.image,
-                        (self.all_sprites, self.collision_sprites),
+                        (self.all_sprites, self.collision_sprites),  # type: ignore
                     )
                 else:
                     # frames
@@ -110,7 +110,7 @@ class Level:
                         else ANIMATION_SPEED + uniform(-1, 1)
                     )
 
-                    AnimatedSprite((obj.x, obj.y), frames, groups, z, animation_speed)
+                    AnimatedSprite((obj.x, obj.y), frames, groups, z, animation_speed)  # type: ignore
 
         # moving objects
         for obj in tmx_map.get_layer_by_name("Moving Objects"):
@@ -122,7 +122,7 @@ class Level:
                     (self.all_sprites, self.semi_collision_sprites)
                     if obj.properties["platform"]
                     else (self.all_sprites, self.damage_sprites)
-                )
+                )  # type: ignore
 
                 # horizontal
                 if obj.width > obj.height:
@@ -146,24 +146,28 @@ class Level:
                 )
 
             if obj.name == "saw":
-                if move_dir == "x":
-                    y = start_pos[1] - level_frames["saw_chain"].get_height() / 2
-                    left, right = int(start_pos[0]), int(end_pos[0])
+                if move_dir == "x":  # pyright: ignore
+                    y = (
+                        start_pos[1] - level_frames["saw_chain"].get_height() / 2  # type: ignore
+                    )  # pyright: ignore
+                    left, right = int(start_pos[0]), int(end_pos[0])  # pyright: ignore
                     for x in range(left, right, 20):
                         Sprite(
                             (x, y),
                             level_frames["saw_chain"],
-                            self.all_sprites,
+                            self.all_sprites,  # type: ignore
                             Z_LAYERS["bg details"],
                         )
                 else:
-                    x = start_pos[0] - level_frames["saw_chain"].get_width() / 2
-                    top, bottom = int(start_pos[1]), int(end_pos[1])
+                    x = (
+                        start_pos[0] - level_frames["saw_chain"].get_width() / 2  # type: ignore
+                    )  # pyright: ignore
+                    top, bottom = int(start_pos[1]), int(end_pos[1])  # pyright: ignore
                     for y in range(top, bottom, 20):
                         Sprite(
                             (x, y),
                             level_frames["saw_chain"],
-                            self.all_sprites,
+                            self.all_sprites,  # type: ignore
                             Z_LAYERS["bg details"],
                         )
 
