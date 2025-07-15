@@ -102,12 +102,12 @@ class Spike(Sprite):
         self.angle = self.start_angle
 
         # trig
-        y = self.center[1] + sin(radians(self.angle) * self.radius)
-        x = self.center[0] + cos(radians(self.angle) * self.radius)
-        super().__init__((x,y), surf, groups, z)
+        y = self.center[1] + sin(radians(self.angle)) * self.radius
+        x = self.center[0] + cos(radians(self.angle)) * self.radius
+        super().__init__((x, y), surf, groups, z)
 
     def update(self, dt):
         self.angle += self.speed * dt
-        y = self.center[1] + sin(radians(self.angle) * self.radius)
-        x = self.center[0] + cos(radians(self.angle) * self.radius)
-        self.rect.center = (x,y) # type: ignore
+        y = self.center[1] + sin(radians(self.angle)) * self.radius
+        x = self.center[0] + cos(radians(self.angle)) * self.radius
+        self.rect.center = (x, y)  # type: ignore
