@@ -132,8 +132,8 @@ class Level:
                         speed=obj.properties["speed"],
                         start_angle=obj.properties["start_angle"],
                         end_angle=obj.properties["end_angle"],
-                        groups=(self.all_sprites), # type: ignore
-                        z=Z_LAYERS["bg details"]
+                        groups=(self.all_sprites),  # type: ignore
+                        z=Z_LAYERS["bg details"],
                     )
             else:
                 frames = level_frames[obj.name]
