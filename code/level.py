@@ -211,6 +211,7 @@ class Level:
                     level_frames["shell"],
                     (self.all_sprites, self.collision_sprites),
                     obj.properties["reverse"],
+                    self.player,
                 )
 
     def run(self, dt):
