@@ -40,3 +40,7 @@ class Tooth(pygame.sprite.Sprite):
             and self.direction < 0
         ):
             self.direction *= -1
+
+class Shell(pygame.sprite.Sprite):
+    def __init__(self, groups):
+        super().__init__(groups)
