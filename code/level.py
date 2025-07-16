@@ -1,11 +1,11 @@
 from random import uniform
 from typing import List
 
-from enemies import Shell, Tooth
-from groups import AllSprites
-from player import Player
-from settings import *
-from sprites import AnimatedSprite, MovingSprite, Spike, Sprite
+from code.enemies import Shell, Tooth
+from code.groups import AllSprites
+from code.player import Player
+from code.settings import *
+from code.sprites import AnimatedSprite, MovingSprite, Spike, Sprite
 
 
 class Level:

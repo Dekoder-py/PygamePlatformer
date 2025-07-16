@@ -1,4 +1,4 @@
-from settings import *
+from code.settings import *
 
 
 class AllSprites(pygame.sprite.Group):

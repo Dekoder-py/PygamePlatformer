@@ -1,9 +1,9 @@
 from os.path import join
 
-from level import Level
+from code.level import Level
 from pytmx.util_pygame import load_pygame
-from settings import *
-from support import *
+from code.settings import *
+from code.support import *
 
 
 class Game:

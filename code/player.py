@@ -1,7 +1,6 @@
-from settings import *
-from os.path import join
+from code.settings import *
 
-from timer import Timer
+from code.timer import Timer
 
 
 class Player(pygame.sprite.Sprite):

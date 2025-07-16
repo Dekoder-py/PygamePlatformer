@@ -1,6 +1,6 @@
 from math import cos, radians, sin, tan
 
-from settings import *
+from code.settings import *
 
 
 class Sprite(pygame.sprite.Sprite):

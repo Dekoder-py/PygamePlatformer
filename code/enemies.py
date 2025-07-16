@@ -1,7 +1,6 @@
-from timer import Timer
+from code.settings import *
+from code.timer import Timer
 from random import choice
-
-from settings import *
 
 
 class Tooth(pygame.sprite.Sprite):
@@ -78,7 +77,12 @@ class Shell(pygame.sprite.Sprite):
             else shell_pos.x > player_pos.x
         )
         player_level = abs(shell_pos.y - player_pos.y) < 15
-        if player_near and player_front and player_level and not self.shoot_timer.active:
+        if (
+            player_near
+            and player_front
+            and player_level
+            and not self.shoot_timer.active
+        ):
             self.state = "fire"
             self.frame_index = 0
             self.shoot_timer.activate()
@@ -88,6 +92,6 @@ class Shell(pygame.sprite.Sprite):
         self.state_management()
 
         # animation / attack
-        self.frame_index += ANIMATION_SPEED * dt 
+        self.frame_index += ANIMATION_SPEED * dt
         if self.frame_index < len(self.frames[self.state]):
             self.image = self.frames[self.state][int(self.frame_index)]
