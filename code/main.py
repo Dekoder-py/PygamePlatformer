@@ -2,7 +2,6 @@ from os.path import join
 
 from level import Level
 from pytmx.util_pygame import load_pygame
-# ruff: noqa: F403, F405
 from settings import *
 from support import *
 
