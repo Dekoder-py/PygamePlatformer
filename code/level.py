@@ -1,7 +1,7 @@
 from random import uniform
 from typing import List
 
-from enemies import Tooth
+from enemies import Shell, Tooth
 from groups import AllSprites
 from player import Player
 from settings import *
@@ -199,9 +199,18 @@ class Level:
                     (obj.x, obj.y),
                     level_frames["tooth"],
                     self.collision_sprites,
-                    (self.all_sprites,
-                    self.damage_sprites,
-                    self.tooth_sprites,)
+                    (
+                        self.all_sprites,
+                        self.damage_sprites,
+                        self.tooth_sprites,
+                    ),
+                )
+            if obj.name == "shell":
+                Shell(
+                    (obj.x, obj.y),
+                    level_frames["shell"],
+                    (self.all_sprites, self.collision_sprites),
+                    obj.properties["reverse"],
                 )
 
     def run(self, dt):

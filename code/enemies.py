@@ -41,6 +41,31 @@ class Tooth(pygame.sprite.Sprite):
         ):
             self.direction *= -1
 
+
 class Shell(pygame.sprite.Sprite):
-    def __init__(self, groups):
+    def __init__(self, pos, frames, groups, reverse):
         super().__init__(groups)
+
+        if reverse:
+            self.frames = {}
+            for key, surfs in frames.items():
+                self.frames[key] = [
+                    pygame.transform.flip(surf, True, False) for surf in surfs
+                ]
+            self.bullet_direction = -1
+        else:
+            self.frames = frames
+            self.bullet_direction = 1
+
+        self.frame_index = 0
+        self.state = "idle"
+        self.image = self.frames[self.state][self.frame_index]
+        self.rect = self.image.get_frect(topleft=pos)
+        self.old_rect = self.rect.copy()
+        self.z = Z_LAYERS["main"]
+
+    def update(self, dt):
+        self.frame_index += ANIMATION_SPEED * dt
+        self.image = self.frames[self.state][
+            int(self.frame_index % len(self.frames[self.state]))
+        ]
