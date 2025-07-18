@@ -124,4 +124,3 @@ class Pearl(pygame.sprite.Sprite):
 
     def update(self, dt):
         self.rect.x += self.direction * self.speed * dt
-
