@@ -1,16 +1,16 @@
-from random import uniform
-from typing import List
-
-from code.enemies import Shell, Tooth
+from code.enemies import Pearl, Shell, Tooth
 from code.groups import AllSprites
 from code.player import Player
 from code.settings import *
 from code.sprites import AnimatedSprite, MovingSprite, Spike, Sprite
+from random import uniform
+from typing import List
 
 
 class Level:
     def __init__(self, tmx_map, level_frames):
         self.display_surf: pygame.Surface = pygame.display.get_surface()  # type: ignore[reportAttributeAccessIssue]
+        self.level_frames = level_frames
 
         # groups
         self.all_sprites = AllSprites()
@@ -18,8 +18,9 @@ class Level:
         self.semi_collision_sprites = pygame.sprite.Group()
         self.damage_sprites = pygame.sprite.Group()
         self.tooth_sprites = pygame.sprite.Group()
+        self.pearl_sprites = pygame.sprite.Group()
 
-        self.setup(tmx_map, level_frames)
+        self.setup(tmx_map, self.level_frames)
 
     def setup(self, tmx_map, level_frames):
         # tiles
@@ -207,12 +208,22 @@ class Level:
                 )
             if obj.name == "shell":
                 Shell(
-                    (obj.x, obj.y),
-                    level_frames["shell"],
-                    (self.all_sprites, self.collision_sprites),
-                    obj.properties["reverse"],
-                    self.player,
+                    pos=(obj.x, obj.y),
+                    frames=level_frames["shell"],
+                    groups=(self.all_sprites, self.collision_sprites),
+                    reverse=obj.properties["reverse"],
+                    player=self.player,
+                    create_pearl=self.create_pearl
                 )
+
+    def create_pearl(self, pos, direction):
+        Pearl(
+            pos,
+            self.level_frames["pearl"],
+            direction,
+            150,
+            (self.all_sprites, self.damage_sprites, self.pearl_sprites),
+        )
 
     def run(self, dt):
         self.display_surf.fill("black")

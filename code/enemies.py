@@ -43,7 +43,7 @@ class Tooth(pygame.sprite.Sprite):
 
 
 class Shell(pygame.sprite.Sprite):
-    def __init__(self, pos, frames, groups, reverse, player):
+    def __init__(self, pos, frames, groups, reverse, player, create_pearl):
         super().__init__(groups)
 
         if reverse:
@@ -66,6 +66,7 @@ class Shell(pygame.sprite.Sprite):
         self.player = player
         self.shoot_timer = Timer(3000)
         self.has_fired = False
+        self.create_pearl = create_pearl
 
     def state_management(self):
         player_pos, shell_pos = vector(self.player.hitbox_rect.center), vector(
@@ -98,11 +99,25 @@ class Shell(pygame.sprite.Sprite):
             self.image = self.frames[self.state][int(self.frame_index)]
 
             # fire
-            if self.state == "fire" and int(self.frame_index) == 3 and not self.has_fired:
-                print("shoot pearl")
+            if (
+                self.state == "fire"
+                and int(self.frame_index) == 3
+                and not self.has_fired
+            ):
+                self.create_pearl(self.rect.center, self.bullet_direction)
                 self.has_fired = True
         else:
             self.frame_index = 0
             if self.state == "fire":
                 self.state = "idle"
                 self.has_fired = False
+
+
+class Pearl(pygame.sprite.Sprite):
+    def __init__(self, pos, surf, direction, speed, groups):
+        super().__init__(groups)
+        self.image = surf
+        self.rect = self.image.get_frect(center=pos)
+        self.direction = direction
+        self.speed = speed
+        self.z = Z_LAYERS["main"]
