@@ -1,6 +1,5 @@
-from math import cos, radians, sin, tan
-
 from code.settings import *
+from math import cos, radians, sin
 
 
 class Sprite(pygame.sprite.Sprite):
@@ -32,6 +31,13 @@ class AnimatedSprite(Sprite):
 
     def update(self, dt):
         self.animate(dt)
+
+
+class Item(AnimatedSprite):
+    def __init__(self, item_type, pos, frames, groups):
+        super().__init__(pos, frames, groups)
+        self.rect.center = pos
+        self.item_type = item_type
 
 
 class MovingSprite(AnimatedSprite):

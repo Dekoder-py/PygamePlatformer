@@ -1,9 +1,9 @@
-from os.path import join
-
 from code.level import Level
-from pytmx.util_pygame import load_pygame
 from code.settings import *
 from code.support import *
+from os.path import join
+
+from pytmx.util_pygame import load_pygame
 
 
 class Game:
@@ -34,10 +34,13 @@ class Game:
             "helicopter": import_folder("graphics", "level", "helicopter"),
             "boat": import_folder("graphics", "objects", "boat"),
             "spike": import_image("graphics", "enemies", "spike_ball", "Spiked Ball"),
-            "spike_chain": import_image("graphics", "enemies", "spike_ball", "spiked_chain"),
+            "spike_chain": import_image(
+                "graphics", "enemies", "spike_ball", "spiked_chain"
+            ),
             "tooth": import_folder("graphics", "enemies", "tooth", "run"),
             "shell": import_sub_folders("graphics", "enemies", "shell"),
             "pearl": import_image("graphics", "enemies", "bullets", "pearl"),
+            "items": import_sub_folders("graphics", "items"),
         }
 
     def run(self):

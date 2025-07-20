@@ -2,7 +2,7 @@ from code.enemies import Pearl, Shell, Tooth
 from code.groups import AllSprites
 from code.player import Player
 from code.settings import *
-from code.sprites import AnimatedSprite, MovingSprite, Spike, Sprite
+from code.sprites import AnimatedSprite, Item, MovingSprite, Spike, Sprite
 from random import uniform
 from typing import List
 
@@ -19,6 +19,7 @@ class Level:
         self.damage_sprites = pygame.sprite.Group()
         self.tooth_sprites = pygame.sprite.Group()
         self.pearl_sprites = pygame.sprite.Group()
+        self.item_sprites = pygame.sprite.Group()
 
         self.setup(tmx_map, self.level_frames)
 
@@ -216,6 +217,15 @@ class Level:
                     create_pearl=self.create_pearl,
                 )
 
+        # items
+        for obj in tmx_map.get_layer_by_name("Items"):
+            Item(
+                obj.name,
+                (obj.x + TILE_SIZE / 2, obj.y + TILE_SIZE / 2),
+                level_frames["items"][obj.name],
+                (self.all_sprites, self.item_sprites),
+            )
+
     def create_pearl(self, pos, direction):
         Pearl(
             pos,
@@ -236,11 +246,20 @@ class Level:
                 if hasattr(sprite, "pearl"):
                     sprite.kill()
 
+    def item_collision(self):
+        if self.item_sprites:
+            item_sprites = pygame.sprite.spritecollide(
+                self.player, self.item_sprites, True
+            )
+        if item_sprites:
+            print(item_sprites[0].item_type)
+
     def run(self, dt):
         self.display_surf.fill("black")
 
         self.all_sprites.update(dt)
         self.pearl_collision()
         self.hit_collision()
+        self.item_collision()
 
         self.all_sprites.draw(self.player.hitbox_rect.center)
