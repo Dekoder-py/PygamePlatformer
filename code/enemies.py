@@ -116,6 +116,7 @@ class Shell(pygame.sprite.Sprite):
 class Pearl(pygame.sprite.Sprite):
     def __init__(self, pos, surf, direction, speed, groups):
         super().__init__(groups)
+        self.pearl = True
         self.image = surf
         self.rect = self.image.get_frect(center=pos + vector(50 * direction, 0))
         self.direction = direction
