@@ -16,7 +16,7 @@ class Tooth(pygame.sprite.Sprite):
         self.speed = 200
 
     def reverse(self):
-        print("tooth")
+        self.direction *= -1
 
     def update(self, dt):
 

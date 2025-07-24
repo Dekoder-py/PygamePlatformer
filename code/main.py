@@ -10,7 +10,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.display_surf = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        pygame.display.set_caption("Unnamed Platform World")
+        pygame.display.set_caption("Platformer World")
         self.clock = pygame.Clock()
         self.import_assets()
 

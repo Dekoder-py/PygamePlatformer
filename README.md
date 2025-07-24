@@ -1,6 +1,4 @@
-# Unnamed 2D Platformer
-
-I'll come up with a name later :)
+# Platformer World
 
 Written in python with pygame-ce.
 
@@ -14,8 +12,8 @@ Made for HackClub Summer of Making 2025!
 ## Running:
 
 ```bash
-git clone https://github.com/Dekoder-py/PygamePlatformer
-cd PygamePlatformer
+git clone https://github.com/Dekoder-py/PygamePlatformer PlatformerWorld
+cd PlatformerWorld
 pip install -r requirements.txt
 python3 -m code.main
 ```
