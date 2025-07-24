@@ -2,7 +2,8 @@ from code.enemies import Pearl, Shell, Tooth
 from code.groups import AllSprites
 from code.player import Player
 from code.settings import *
-from code.sprites import AnimatedSprite, Item, MovingSprite, Spike, Sprite
+from code.sprites import (AnimatedSprite, Item, MovingSprite,
+                          ParticleEffectSprite, Spike, Sprite)
 from random import uniform
 from typing import List
 
@@ -252,7 +253,11 @@ class Level:
                 self.player, self.item_sprites, True
             )
         if item_sprites:
-            print(item_sprites[0].item_type)
+            ParticleEffectSprite(
+                (item_sprites[0].rect.center),
+                self.level_frames["particle"],
+                self.all_sprites,
+            )
 
     def run(self, dt):
         self.display_surf.fill("black")
