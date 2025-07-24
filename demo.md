@@ -18,7 +18,10 @@ python3 -m code.main
 
 ## Game controls
 Jump/Wall Jump: UP Arrow
+
 Move: LEFT/RIGHT Arrows
+
 Drop through platforms: DOWN Arrox
+
 Attack: X key
 
