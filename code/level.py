@@ -238,7 +238,11 @@ class Level:
         for sprite in self.collision_sprites:
             sprite = pygame.sprite.spritecollide(sprite, self.pearl_sprites, True)
             if sprite:
-                ParticleEffectSprite(sprite[0].rect.center, self.level_frames['particle'], self.all_sprites)
+                ParticleEffectSprite(
+                    sprite[0].rect.center,
+                    self.level_frames["particle"],
+                    self.all_sprites,
+                )
 
     def hit_collision(self):
         for sprite in self.damage_sprites:
@@ -246,7 +250,11 @@ class Level:
                 print("player damage")
                 if hasattr(sprite, "pearl"):
                     sprite.kill()
-                    ParticleEffectSprite(sprite.rect.center, self.level_frames['particle'], self.all_sprites)
+                    ParticleEffectSprite(
+                        sprite.rect.center,
+                        self.level_frames["particle"],
+                        self.all_sprites,
+                    )
 
     def item_collision(self):
         if self.item_sprites:
