@@ -11,9 +11,7 @@ from typing import List
 class Level:
     def __init__(self, tmx_map, level_frames):
         self.display_surf: pygame.Surface = pygame.display.get_surface()  # type: ignore[reportAttributeAccessIssue]
-        self.level_frames = level_frames
-
-        # groups
+        self.level_frames = level_frames  # groups
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.semi_collision_sprites = pygame.sprite.Group()
@@ -252,12 +250,12 @@ class Level:
             item_sprites = pygame.sprite.spritecollide(
                 self.player, self.item_sprites, True
             )
-        if item_sprites:
-            ParticleEffectSprite(
-                (item_sprites[0].rect.center),
-                self.level_frames["particle"],
-                self.all_sprites,
-            )
+            if item_sprites:
+                ParticleEffectSprite(
+                    (item_sprites[0].rect.center),
+                    self.level_frames["particle"],
+                    self.all_sprites,
+                )
 
     def run(self, dt):
         self.display_surf.fill("black")
