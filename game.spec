@@ -12,11 +12,6 @@ for folder in ['data', 'graphics']:
             # ('data/some/file.png', 'data')
             datas.append((str(path), str(path.parent)))
 
-print("DATAS BEING COLLECTED:")
-for item in datas:
-    print(item)
-
-
 
 
 # --- Optional: collect all py_tmx modules ---
@@ -51,7 +46,6 @@ exe = EXE(
     strip=False,
     upx=True,
     console=True,  # False if it's a GUI app and you don't want a terminal window
-    target_arch='arm64',  # your Mac is ARM64
 )
 
 coll = COLLECT(
